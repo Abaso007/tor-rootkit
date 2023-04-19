@@ -36,20 +36,21 @@ class Tor:
         self.tor_process = self.launch()
         ps.stop()
         print()
-        Style.pos_sys_msg('Onion: {}'.format(self.get_onion_address()))
+        Style.pos_sys_msg(f'Onion: {self.get_onion_address()}')
 
     def launch(self):
         try:
             tor_process = stem.process.launch_tor_with_config(
                 config={
-                    'SocksListenAddress': '127.0.0.1:{}'.format(self.TOR_SOCKS_PORT),
-                    'SocksPort': '{}'.format(self.TOR_SOCKS_PORT),
-                    'HiddenServiceDir': '{}'.format(self.BASE_DIR),
+                    'SocksListenAddress': f'127.0.0.1:{self.TOR_SOCKS_PORT}',
+                    'SocksPort': f'{self.TOR_SOCKS_PORT}',
+                    'HiddenServiceDir': f'{self.BASE_DIR}',
                     'HiddenServiceVersion': '3',
-                    'HiddenServicePort': '{} 127.0.0.1:{}'.format(self.listener_port, self.forward_port)
-                })
+                    'HiddenServicePort': f'{self.listener_port} 127.0.0.1:{self.forward_port}',
+                }
+            )
         except Exception as error:
-            Style.neg_sys_msg('Error while starting tor: {}'.format(error))
+            Style.neg_sys_msg(f'Error while starting tor: {error}')
             sys.exit(1)
         return tor_process
 
@@ -139,10 +140,10 @@ class Client:
             data = str(data)
             self.__conn.send(data.encode('utf-8'))
         except socket.error as error:
-            Style.neg_sys_msg('Error while sending: {}'.format(error))
+            Style.neg_sys_msg(f'Error while sending: {error}')
             sys.exit(1)
         else:
-            Style.pos_sys_msg('==> send {} bytes'.format(sys.getsizeof(data)))
+            Style.pos_sys_msg(f'==> send {sys.getsizeof(data)} bytes')
 
     def receive(self, buffer_size):
         """
@@ -157,9 +158,9 @@ class Client:
             data = data.decode('utf-8')
             data = eval(data)
         except socket.error as error:
-            Style.neg_sys_msg('Error while receiving: {}'.format(error))
+            Style.neg_sys_msg(f'Error while receiving: {error}')
             self.__conn.close()
             return -1, -1
         else:
-            Style.pos_sys_msg('<== received {} bytes'.format(num_bytes))
+            Style.pos_sys_msg(f'<== received {num_bytes} bytes')
             return data['output'], data['cwd']

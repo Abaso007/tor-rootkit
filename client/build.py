@@ -25,7 +25,7 @@ def get_tor_expert_bundle():
         file = open('tor.zip', 'wb')
         file.write(file_data.content)
     except Exception as error:
-        print('[-] Error while writing tor expert bundle: {}'.format(error))
+        print(f'[-] Error while writing tor expert bundle: {error}')
         sys.exit(1)
     else:
         print('[*] Wrote tor expert bundle to file')
@@ -47,12 +47,12 @@ if __name__ == '__main__':
     encryption_key_charset = ascii_uppercase + ascii_lowercase + digits
     encryption_key = ''.join(choice(encryption_key_charset) for _ in range(16))
 
-    pyinstaller_args = ['client.py', '--onefile', '--key={}'.format(encryption_key)]
+    pyinstaller_args = ['client.py', '--onefile', f'--key={encryption_key}']
     pyinstaller_args_windows = ['--add-data=torbundle;torbundle', '--upx-dir=upx-3.96-win64']
     pyinstaller_args_linux = ['--add-data=tor_linux:tor_linux', '--upx-dir=upx-3.96-amd64_linux/']
     if os.name == 'nt':
         pyinstaller_args += pyinstaller_args_windows
-        PyInstaller.__main__.run(pyinstaller_args)
     else:
         pyinstaller_args += pyinstaller_args_linux
-        PyInstaller.__main__.run(pyinstaller_args)
+
+    PyInstaller.__main__.run(pyinstaller_args)

@@ -15,11 +15,11 @@ init()
 class Style:
     @staticmethod
     def pos_sys_msg(string):
-        print('[' + Fore.GREEN + '*' + St.RESET_ALL + '] ' + string)
+        print(f'[{Fore.GREEN}*{St.RESET_ALL}] {string}')
 
     @staticmethod
     def neg_sys_msg(string):
-        print('[' + Fore.RED + '-' + St.RESET_ALL + '] ' + string)
+        print(f'[{Fore.RED}-{St.RESET_ALL}] {string}')
 
     @staticmethod
     def client_connect_msg():
@@ -37,7 +37,7 @@ class ProgressSpinner(Thread):
 
     def run(self):
         self.running = True
-        spinner = Spinner('[' + Fore.GREEN + '*' + St.RESET_ALL + '] ' + '{} '.format(self.message))
+        spinner = Spinner(f'[{Fore.GREEN}*{St.RESET_ALL}] ' + f'{self.message} ')
         while self.running:
             spinner.next()
             sleep(0.2)

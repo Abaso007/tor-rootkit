@@ -47,9 +47,6 @@ class Client:
                 break
             if execution_status == -1:
                 continue
-            elif execution_status == 0:
-                pass
-
         # re-establish connection after it is broken
         self.initialize_network()
 
